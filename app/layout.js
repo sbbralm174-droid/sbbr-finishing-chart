@@ -1,20 +1,21 @@
-'use client';
-import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+// app/layout.js
+import { Inter } from 'next/font/google';
+import './globals.css';
+import NextButton from '@/components/NextButton';
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
+  title: 'Auto Slider App',
+  description: 'An app with an auto-sliding page router.',
+};
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
+      <body className={inter.className}>
+        {children}
+        <NextButton /> {/* Add the NextButton component here */}
       </body>
     </html>
   );

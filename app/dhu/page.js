@@ -41,11 +41,13 @@ export default function DhuPage() {
     <div className="p-6">
       <Card className="shadow-lg">
         <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Daily DHU Trend
-          </Typography>
+        <div className="text-center  mb-6">
+          <h1 className="text-2xl font-bold">GMS TEXTILES LTD.</h1>
+          <p className="text">TANSUTRAPUR, KALIAKOIR, GAZIPUR</p>
+          <h2 className="text-lg font-bold">Date wise prod vs DHU</h2>
+        </div>
 
-          <FormControl variant="outlined" sx={{ minWidth: 150, mb: 3 }}>
+          <FormControl className="text-center  " variant="outlined" sx={{ minWidth: 150, mb: 3 }}>
             <InputLabel>Select Floor</InputLabel>
             <Select
               value={selectedFloor}
@@ -53,9 +55,9 @@ export default function DhuPage() {
               label="Select Floor"
             >
               <MenuItem value="all">All Floors</MenuItem>
-              <MenuItem value="Floor 1">Floor 1</MenuItem>
-              <MenuItem value="Floor 2">Floor 2</MenuItem>
-              <MenuItem value="Floor 3">Floor 3</MenuItem>
+              <MenuItem value="Floor 1">Shapla</MenuItem>
+              <MenuItem value="Floor 2">Poddo</MenuItem>
+              <MenuItem value="Floor 3">Kadom</MenuItem>
               {/* প্রয়োজনে এখানে আরও ফ্লোর যোগ করুন */}
             </Select>
           </FormControl>
