@@ -3,15 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
-  ArcElement, // ArcElement পাই চার্টের জন্য প্রয়োজন
+  ArcElement,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Pie } from 'react-chartjs-2'; // Pie কম্পোনেন্ট ইম্পোর্ট করা হয়েছে
+import { Pie } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // এই লাইনটি যোগ করুন
 import { Container, Grid, Typography, Box, TextField, CircularProgress, Alert } from '@mui/material';
 import { format } from 'date-fns';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels); // ChartDataLabels রেজিস্টার করুন
 
 // স্ট্যাটিক ডেটা (নমুনা হিসেবে)
 const staticFloorData = {
@@ -53,12 +54,11 @@ export default function PieChartPage() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
 
   useEffect(() => {
-    // স্ট্যাটিক ডেটা ব্যবহার করে সরাসরি চার্ট তৈরি করা হচ্ছে
     setFloor1Data(processDataForChart(staticFloorData.floor1));
     setFloor2Data(processDataForChart(staticFloorData.floor2));
     setFloor3Data(processDataForChart(staticFloorData.floor3));
     setLoading(false);
-  }, [selectedDate]); // তারিখ পরিবর্তনের সাথে সাথে চার্ট আপডেট হবে
+  }, [selectedDate]);
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
@@ -81,6 +81,18 @@ export default function PieChartPage() {
             return `${label}: ${percentage.toFixed(2)}% (${value} units)`;
           },
         },
+      },
+      datalabels: {
+        color: '#fff',
+        formatter: (value, context) => {
+          const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
+          const percentage = (value / total) * 100;
+          return `${value} (${percentage.toFixed(1)}%)`;
+        },
+        font: {
+          weight: 'bold',
+          size: 14,
+        }
       },
     },
   };
@@ -114,7 +126,7 @@ export default function PieChartPage() {
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} md={4}>
             <Box sx={{ height: 400, border: '1px solid #ccc', borderRadius: 2, p: 2 }}>
-              <Typography variant="h6" align="center" gutterBottom>Floor 1</Typography>
+              <Typography variant="h6" align="center" gutterBottom>Shapla</Typography>
               {floor1Data && floor1Data.datasets[0].data.length > 0 ? (
                 <Pie data={floor1Data} options={chartOptions} />
               ) : (
@@ -124,7 +136,7 @@ export default function PieChartPage() {
           </Grid>
           <Grid item xs={12} md={4}>
             <Box sx={{ height: 400, border: '1px solid #ccc', borderRadius: 2, p: 2 }}>
-              <Typography variant="h6" align="center" gutterBottom>Floor 2</Typography>
+              <Typography variant="h6" align="center" gutterBottom>Poddo</Typography>
               {floor2Data && floor2Data.datasets[0].data.length > 0 ? (
                 <Pie data={floor2Data} options={chartOptions} />
               ) : (
@@ -134,7 +146,7 @@ export default function PieChartPage() {
           </Grid>
           <Grid item xs={12} md={4}>
             <Box sx={{ height: 400, border: '1px solid #ccc', borderRadius: 2, p: 2 }}>
-              <Typography variant="h6" align="center" gutterBottom>Floor 3</Typography>
+              <Typography variant="h6" align="center" gutterBottom>Kadom</Typography>
               {floor3Data && floor3Data.datasets[0].data.length > 0 ? (
                 <Pie data={floor3Data} options={chartOptions} />
               ) : (
